@@ -1,0 +1,15 @@
+variables:
+  IMAGE_NAME: tjdft/vue-ssr:latest
+
+stages:
+  - build_and_push
+
+build_image:
+  image: docker:latest
+  stage: build_and_push  
+  script:
+    - docker login -u $SA_USER -p $SA_USER_TOKEN $REGISTRY_ADDR
+    - docker build -t $IMAGE_NAME .
+    - docker tag $IMAGE_NAME $REGISTRY_ADDR/$IMAGE_NAME
+    - docker push $REGISTRY_ADDR/$IMAGE_NAME
+
